@@ -24,13 +24,13 @@ export default {
 @import '../stylesheets/general.sass'
 
 .layout
-  +flex(1, 0)
+  +flex(0, 0)
   height: 100vh
 
   .layout__lateral-panel
-3
+
   .layout__main-content
-    background: #f7f7f7
+    background: #f0eff4
     flex-grow: 1
 
 </style>

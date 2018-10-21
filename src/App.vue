@@ -30,5 +30,7 @@ html, body
   padding: 0
   font-family: $font-regular
 
+*
+  box-sizing: border-box
 
 </style>

@@ -135,7 +135,7 @@ strong
 
     &:hover
       border-left: 7px solid #564C74 
-      background: #F2F2FF
+      background: lighten(#F2F2FF, 1.5%)
 
 li.menu--active
   border-left: 7px solid #564C74
