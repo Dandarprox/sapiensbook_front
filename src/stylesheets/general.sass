@@ -10,3 +10,102 @@
   padding: 15px 30px
   text-align: center
   box-shadow: 0 2px 15px 1px rgba(black, .17)
+
+
+.btn--icon-circle
+  display: inline-block
+  cursor: pointer 
+  transition: .3s
+  border-radius: 50%
+  text-align: center
+  width: 35px 
+  height: 35px 
+  padding: 5px
+  background: rgba(white, .2)
+  box-shadow: 0 2px 15px 1px rgba(black, .17)
+    
+  svg
+    fill: rgba(white, .4)
+    transition: .3s
+
+  &:hover
+    svg
+      fill: rgba(white, .7)
+
+.help-card
+  margin-top: 15px
+  border-radius: 10px
+  padding: 40px 25px 25px
+  position: relative
+  color: rgba(white, .7)
+  background: rgba(#79437A, .65) 
+  max-width: 300px
+  font-size: 14px
+  opacity: 1
+  max-height: 500px
+  transition: .3s
+  margin: 20px 
+
+.help-card__close
+  border-radius: 50% 
+  position: absolute
+  top: 1px
+  right: 0
+  width: 21px
+  height: 21px
+  transform: translate(40%, -50%)
+  background: lighten(#79437A, 5%)
+  padding: 3px
+  cursor: pointer
+  transition: .3s
+  opacity: 1
+
+  svg
+    fill: lighten(black, 15%)
+    transition: .3s
+
+  &:hover
+    background: lighten(#79437A, 10%)
+    svg
+      fill: lighten(black, 10%)
+
+
+.help-card--disabled
+  transition-delay: .35s
+  max-height: 0px
+  opacity: 0
+  padding: 0
+  overflow: hidden
+
+  > .help-card__close
+    opacity: 0
+
+.input-box
+  width: 300px
+  padding: 15px
+  color: rgba(white, .8)
+
+.input__label
+  padding: 10px 0
+  text-align: center
+  color: $golden
+
+.input--landing
+  width: 100%
+  border-radius: 4px
+  border: 2px solid rgba(white, .2)
+  height: 45px
+  padding: 0 10px
+  background: rgba(#2C2451, .8)
+  color: white
+  font-size: 15px
+
+  &:focus, &:hover, &:-webkit-autofill
+    outline: 0
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active
+  outline: 0
+  background: transparent  !important

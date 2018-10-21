@@ -1,5 +1,6 @@
 <template>
   <div class="panel">
+    <img src="../assets/images/Logo.png" alt="" width="80px">
     <div class="title">Sapiensbook</div>
     <div class="profile">
       <div class="profile__image">

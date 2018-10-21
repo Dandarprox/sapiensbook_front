@@ -11,9 +11,146 @@
       </div>
       <span class="subtitle">The social network for reasearchers</span>
       <div class="button-box">
-        <router-link :to="{name: 'Layout'}" tag="div" class="btn btn--landing">Login</router-link>
-        <router-link :to="{name: 'Layout'}" tag="div" class="btn btn--landing">Sign in</router-link>
+        <a href="#login" class="btn btn--landing" id="toLogin" 
+          @click="activeLogin = true, activeSignin = false">Log in</a>
+        <a href="#signin" class="btn btn--landing" id="toSignin" 
+          @click="activeLogin = false, activeSignin = true">Sign in</a>
       </div>
+      <div class="btn--icon-circle"
+        @click="disabledCard = !disabledCard">
+        <svg class="material-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+      </div>
+
+      <div class="help-card"
+        :class="{'help-card--disabled': disabledCard}">
+        <div class="help-card__close"
+          @click="disabledCard = true">
+          <svg class="material-icon" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </div>
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nisi labore saepe repudiandae odio officia.
+      </div>
+
+      <div class="login-box" id="login" v-show="activeLogin">
+        <div class="input-box">
+          <div class="input__label">Name</div>
+          <input type="text" class="input--landing">
+        </div>
+        <div class="input-box">
+          <div class="input__label">Password</div>
+          <input type="password" class="input--landing">
+        </div>
+        <div style="text-align: right">
+          <div class="btn btn--landing">
+            Enter
+          </div>
+        </div>
+      </div>
+
+      <div class="signin-box" id="signin" v-show="activeSignin">
+        <div class="input-box">
+          <div class="input__label">Name</div>
+          <input 
+            type="text" 
+            v-model="signin.name"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Lastname</div>
+          <input 
+            type="text" 
+            v-model="signin.lastname"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Password</div>
+          <input 
+            type="password" 
+            v-model="signin.password"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Email</div>
+          <input 
+            type="email" 
+            v-model="signin.email"
+            class="input--landing">
+        </div>
+        
+        <div class="input-box">
+          <div class="input__label">Study areas</div>
+          <input 
+            type="text" 
+            v-model="signin.study_areas"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Organization</div>
+          <input 
+            type="text" 
+            v-model="signin.organization"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Profile</div>
+          <input 
+            type="text" 
+            v-model="signin.profile"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Nacionality</div>
+          <input 
+            type="text" 
+            v-model="signin.nacionality"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Gender</div>
+          <input 
+            type="text" 
+            v-model="signin.gender"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Languages</div>
+          <input 
+            type="text" 
+            v-model="signin.languages"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Skills</div>
+          <input 
+            type="text" 
+            v-model="signin.skills"
+            class="input--landing">
+        </div>
+
+        <div class="input-box">
+          <div class="input__label">Publications</div>
+          <input 
+            type="text" 
+            v-model="signin.publications"
+            class="input--landing">
+        </div>
+
+        <div style="text-align: right; width: 100%: padding: 15px 0">
+          <div class="btn btn--landing">
+            Sing up
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
   </div>  
@@ -21,6 +158,27 @@
 
 <script>
 export default {
+  data() {
+    return {
+      disabledCard: true,
+      activeLogin: false,
+      activeSignin: false,
+      signin: {
+        name: '',
+        lastname: '',
+        email: '',
+        password: '',
+        study_areas: '',
+        organization: '',
+        profile: '',
+        nacionality: '',
+        gender: '',
+        languages: '',
+        skills: '',
+        publications: '',
+      }
+    }
+  },
   mounted() {
     let path = document.getElementById('svg-text')
     let pathLength = Math.ceil(path.getTotalLength());
@@ -33,6 +191,24 @@ export default {
       'stroke-dashoffset': pathLength,
       'animation': 'dash 5s linear forwards' 
     })
+    
+    let anchor = document.getElementById("toLogin")
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+
+    anchor = document.getElementById("toSignin")
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
   }
 }
 </script>
@@ -45,7 +221,8 @@ export default {
   height: 100vh
   position: relative
   background: linear-gradient(to bottom, rgba(42, 39, 100, 1) 0%, rgba(47, 38, 91, 1) 70%, rgba(43, 36, 78, 1) 100%)
-  overflow: hidden
+  overflow-y: scroll
+  overflow-x: hidden
 
 .heading
   z-index: 2
@@ -94,8 +271,11 @@ export default {
     background: linear-gradient(to bottom, rgba(255,255,255,.2) 0%,  rgba(255,255,255, .02) 100%)
     background: rgba(white, .018)
     border-radius: 50%
-    animation: pulse 1.5s ease-in-out (.5s * $i + 4 * .6s) infinite alternate, fadeIn 1.5s cubic-bezier(.44,.41,.24,1.34)  .7s * $i forwards 
+    animation: pulse 1.5s ease-in-out (.5s * $i + 4 * .6s) infinite alternate, fadeIn 1.5s cubic-bezier(.44,.41,.24,1.34)  .6s * $i forwards 
     box-shadow: 0 1px 30px 5px rgba(black, .01)
+a
+  text-decoration: none
+  color: inherit
 
 .btn--landing
   border: 2px solid rgba(#C89A4F, .2)
@@ -118,6 +298,23 @@ export default {
     left: 160%
     transition: .5s
     transition-delay: .3s ease-in
+
+.login-box, .signin-box 
+  border-radius: 4px
+  +flex(0, 0)
+  flex-direction: column
+  padding: 30px
+  border: 1px solid rgba(white, .1)
+  background: rgba(#392248, .3)
+  animation: fadeInJump 1s forwards
+  position: relative
+  margin-bottom: 30px
+
+.signin-box
+  justify-content: center
+  max-width: 700px 
+  flex-direction: row
+  flex-wrap: wrap
 
 @keyframes pulse
   0%
