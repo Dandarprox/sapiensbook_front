@@ -5,6 +5,7 @@
     </div>
 
     <div class="layout__main-content">
+      <top-bar></top-bar>
       <router-view></router-view>
     </div>
   </div>  
@@ -12,10 +13,12 @@
 
 <script>
 import LateralPanel from './LateralPanel.vue'
+import TopBar from './TopBar.vue'
 
 export default {
   components: {
-    LateralPanel
+    LateralPanel,
+    TopBar
   }
 }
 </script>
@@ -32,5 +35,6 @@ export default {
   .layout__main-content
     background: #f0eff4
     flex-grow: 1
+    overflow-y: auto
 
 </style>

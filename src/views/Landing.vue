@@ -32,15 +32,21 @@
 
       <div class="login-box" id="login" v-show="activeLogin">
         <div class="input-box">
-          <div class="input__label">Name</div>
-          <input type="text" class="input--landing">
+          <div class="input__label">Email</div>
+          <input 
+            type="text" 
+            v-model="login.email"
+            class="input--landing">
         </div>
         <div class="input-box">
           <div class="input__label">Password</div>
-          <input type="password" class="input--landing">
+          <input 
+            type="password" 
+            v-model="login.password"
+            class="input--landing">
         </div>
         <div style="text-align: right">
-          <div class="btn btn--landing">
+          <div class="btn btn--landing" @click="userLogin">
             Enter
           </div>
         </div>
@@ -157,12 +163,19 @@
 </template>
 
 <script>
+import GQL from '../http_common'
+import jwt from 'jsonwebtoken'
+
 export default {
   data() {
     return {
       disabledCard: true,
       activeLogin: false,
       activeSignin: false,
+      login: {
+        email: '',
+        password: ''
+      },
       signin: {
         name: '',
         lastname: '',
@@ -177,6 +190,30 @@ export default {
         skills: '',
         publications: '',
       }
+    }
+  },
+  methods: {
+    async userLogin() {
+      const res = await GQL.post('', {
+        query: `
+          mutation Login($data: loginInput!) {
+            login(data: $data) 
+          }`,
+        variables: {
+          data: {
+            email: "dlsusp@gma",
+            password: "jiji666"
+          }
+          // data: {
+          //   email: this.login.email,
+          //   password: this.login.password
+          // }
+        }
+      })
+
+      let token = res.data.data.login;
+      this.$store.commit('setJwt', token);
+      this.$router.push({name: 'UserMe'})
     }
   },
   mounted() {

@@ -1,5 +1,5 @@
 const state = {
-  jwt: ''
+  jwt: '',
 }
 
 export default state;
