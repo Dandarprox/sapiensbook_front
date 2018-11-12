@@ -7,7 +7,9 @@ import Landing from '../views/Landing.vue'
 import UserMe from '../views/UserMe.vue'
 
 import Groups from '../views/Groups.vue'
+import GroupsNew from '../views/GroupsNew.vue'
 import GroupsView from '../views/GroupsView.vue'
+import GroupsUpdate from '../views/GroupsUpdate.vue'
 
 Vue.use(Router)
 
@@ -47,24 +49,36 @@ const router = new Router({
           name: 'GroupsView',
           component: GroupsView,
         },
+        {
+          path: '/groups/new',
+          name: 'GroupsNew',
+          component: GroupsNew,
+        },
+        {
+          path: '/groups/:id/update',
+          name: 'GroupsUpdate',
+          component: GroupsUpdate,
+        },
       ]
     }
   ]
 })
 
-// router.beforeEach((from, to, next) => {
-//   console.log("Cambio de ruta");
-//   console.log("Jwt is:", store.getters['getJwt']);
+router.beforeEach((from, to, next) => {
+  console.log("Cambio de ruta");
+  console.log("Jwt is:", store.getters['getJwt']);
   
-//   const jwt = store.getters['getJwt'];
-//   const isLogged = jwt == '' ? false : true;
 
-//   if(!isLogged && to.path !== '/') {
-//     next('/');
-//   } else {
-//     next();
-//   }
+  to.meta.requiresAuth
+  const jwt = store.getters['getJwt'];
+  const isLogged = jwt == '' ? false : true;
 
-// });
+  if(!isLogged && to.path !== '/') {
+    next('/');
+  } else {
+    next();
+  }
+
+});
 
 export default router;

@@ -11,7 +11,7 @@
     </div>
     <div>
       <div class="btn-round">About us</div>
-      <div class="btn-round">Log Out</div>
+      <div class="btn-round" @click="logout">Log Out</div>
     </div>
   </div>
 </template>
@@ -21,6 +21,13 @@ export default {
   data() {
     return {
       activeSearch: false
+    }
+  },
+  methods: {
+    logout() {
+      console.log("Logout")
+      this.$store.commit("setJwt", "");
+      this.$router.push({name: 'Landing'});
     }
   }
 }

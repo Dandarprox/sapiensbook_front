@@ -24,29 +24,32 @@
     </div>
 
     <div class="menu">
-      <li class="menu--active">
-        <routerLink>
+      <li :class="{'menu--active' : activeLink == 'Perfil'}"
+        @click="toRoute('Perfil')">
+        <div>
+          <div class="icon">
+            <svg class="material-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+          </div>
+         Perfil
+        </div>
+      </li>
+      <li :class="{'menu--active' : activeLink == 'Grupos'}"
+        @click="toRoute('Grupos')">
+        <div>
           <div class="icon">
             <svg class="material-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
           </div>
-          <a href="/groups">Grupos</a>
-        </routerLink>
+          Grupos
+        </div>
       </li>
-      <li>
-        <routerLink>
+      <li :class="{'menu--active' : activeLink == 'Actividad'}"
+        @click="toRoute('Actividad')">
+        <div>
           <div class="icon">
             <svg class="material-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
           </div>
           Actividad
-        </routerLink>
-      </li>
-      <li>
-        <routerLink to="/me">
-          <div class="icon">
-            <svg class="material-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
-          </div>
-         <a href="/me">Perfil</a>
-        </routerLink>
+        </div>
       </li>
     </div>
   </div>
@@ -56,10 +59,23 @@
 export default {
   data() {
     return {
-      
+      activeLink: 'Perfil'
+    }
+  },
+  methods: {
+    toRoute(route) {
+      const routesMap = {
+        'Perfil': 'UserMe',
+        'Grupos': 'Groups',
+        'Actividad': '',
+      }
+
+      this.activeLink = route
+      this.$router.push({name: routesMap[route]})
     }
   },
   mounted() {
+
   }
 }
 </script>

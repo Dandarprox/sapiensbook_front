@@ -1,5 +1,6 @@
 <template>
   <div class="groups">
+
     <tabs
       :tabs="tabs">
 
@@ -35,7 +36,45 @@
           </div>
         </div>
       </div>
+
       <div slot="My groups">
+        <router-link
+        tag="div"
+        class="btn btn-filled"
+        :to="{name: 'GroupsNew'}">+Create group</router-link>
+     
+        <div slot="Groups" class="box-fluid">
+          <div class="group-card"
+            v-for="(item, index) in myGroups"
+            :key="index">
+
+            <div class="group-card__in" @click="toRoute(item.soid)">
+              <svg class="material-icon" viewBox="0 0 24 24"><path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+            </div>
+
+            <h2>{{ item.name }}</h2>
+            <div class="group-card__image">
+              <img src="../assets/_temp/GraphQL_Logo.svg.png" alt="">
+            </div>
+            <div class="group-card__content">
+              <strong>Leader:</strong> {{item.leader}}
+
+            </div>
+            <div class="group-card__projects">
+              <strong>Projects</strong>
+              <ol>
+                <li v-for="(project, index) in item.project" :key="index">
+                  {{ project }}
+                </li>
+              </ol>
+            </div>
+            <div class="group-card__themes">
+              <div class="info-card"
+                v-for="(topic, index) in item.topic"
+                :key="index">{{ topic }}</div>
+            </div>
+          </div>
+        </div>
       </div>
       
     </tabs>
@@ -45,6 +84,8 @@
 <script>
 import Tabs from '../ui/Tabs.vue'
 import GQL from '../http_common'
+import _ from 'lodash'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -53,6 +94,7 @@ export default {
   data() {
     return {
       groups: '',
+      myGroups: '',
       test: '',
       mutation: '',
       tabs: [
@@ -117,8 +159,19 @@ export default {
       }
     },
   },
-  mounted() {
-    this.getAllGroups()
+  computed: {
+    ...mapGetters([
+      'getCurrentUser'
+    ])
+  },
+  async mounted() {
+    await this.getAllGroups()
+    let self = this
+    this.myGroups = _.filter(this.groups.allGroups, function(group) {
+      console.log(group)
+      if(group.leader == self.getCurrentUser) return true;
+      return false;
+    })
   }
 }
 

@@ -30,7 +30,9 @@
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nisi labore saepe repudiandae odio officia.
       </div>
 
-      <div class="login-box" id="login" v-show="activeLogin">
+      <div class="login-box" id="login" 
+        v-show="activeLogin"
+        @keypress.enter="userLogin">
         <div class="input-box">
           <div class="input__label">Email</div>
           <input 
@@ -110,10 +112,10 @@
         </div>
 
         <div class="input-box">
-          <div class="input__label">Nacionality</div>
+          <div class="input__label">Nationality</div>
           <input 
             type="text" 
-            v-model="signin.nacionality"
+            v-model="signin.nationality"
             class="input--landing">
         </div>
 
@@ -150,12 +152,12 @@
         </div>
 
         <div style="text-align: right; width: 100%: padding: 15px 0">
-          <div class="btn btn--landing">
+          <div class="btn btn--landing" @click="userSignin">
             Sing up
           </div>
         </div>
 
-      </div>
+      </div>41
 
     </div>
 
@@ -183,8 +185,7 @@ export default {
         password: '',
         study_areas: '',
         organization: '',
-        profile: '',
-        nacionality: '',
+        nationality: '',
         gender: '',
         languages: '',
         skills: '',
@@ -194,26 +195,64 @@ export default {
   },
   methods: {
     async userLogin() {
-      const res = await GQL.post('', {
-        query: `
-          mutation Login($data: loginInput!) {
-            login(data: $data) 
-          }`,
-        variables: {
-          data: {
-            email: "dlsusp@gma",
-            password: "jiji666"
+      try {
+        const res = await GQL.post('', {
+          query: `
+            mutation Login($data: loginInput!) {
+              login(data: $data) 
+            }`,
+          variables: {
+            data: {
+              email: "daerod@gmail.com",
+              password: "Daniel123"
+            }
+            // data: {
+            //   email: this.login.email,
+            //   password: this.login.password
+            // }
           }
-          // data: {
-          //   email: this.login.email,
-          //   password: this.login.password
-          // }
-        }
-      })
+        })
+  
+        console.log(res)
+        let token = res.data.data.login;
+        this.$store.commit('setJwt', token);
+        this.$store.commit('setCurrentUser', jwt.decode(token)._id)
+        this.$router.push({name: 'UserMe'})
 
-      let token = res.data.data.login;
-      this.$store.commit('setJwt', token);
-      this.$router.push({name: 'UserMe'})
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async userSignin() {
+      try {
+        const res = await GQL.post('', {
+          query: `
+            mutation CreateUser($user: UserInput!) {
+              createUser(user: $user) {
+                name
+                _id
+              }
+            }`,
+            variables: {
+              user: {
+                name: "Daniel",
+                lastname: "Rodriguez",
+                email: this.signin.email,
+                password: 'Daniel123',
+                organization: 'asda',
+                nationality: 'asdasdasdasd',
+                // gender: 'Male',
+                languages: ['asdasdasdasd'],
+                skills: ['asdasdasdasd'],
+              }
+            }
+        })
+
+        console.log(res)
+        
+      } catch(e) {
+        console.log(e)
+      }
     }
   },
   mounted() {

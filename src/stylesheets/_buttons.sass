@@ -1,0 +1,40 @@
+.btn-filled
+  background: #79437A
+  color: white
+  padding: 10px 15px !important
+  font-size: 14px
+  font-weight: bolder
+
+  &:hover
+    background: lighten(#79437A, 7%)
+
+.btn--purple-border
+  border: 1px solid #79437A
+  color: #79437A
+  width: 25px !important
+  height: 25px !important
+  margin: 0 5px
+
+  svg
+    fill: #79437A !important
+
+  &:hover
+    background: #79437A
+    color: white
+
+    svg
+      fill: white !important
+
+.btn--gradient
+  background: linear-gradient(to bottom, #D31BB0 0%, #EB6294 100%)
+  color: white
+
+  svg
+    fill: white
+
+  &:after
+    content: ''
+    width: 100%
+    height: 100%
+    border-radius: 50%
+    background: rgba(red, .1)
