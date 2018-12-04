@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const GQL = axios.create({
-    baseURL: 'http://35.229.33.47:5000/graphql/?',
+    baseURL: 'http://35.237.5.35/graphql/?',
     timeout: 60000
 })
 

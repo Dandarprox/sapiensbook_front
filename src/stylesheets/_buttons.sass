@@ -14,8 +14,14 @@
   width: 25px !important
   height: 25px !important
   margin: 0 5px
+  white-space: normal
+  position: relative
 
   svg
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
     fill: #79437A !important
 
   &:hover
@@ -38,3 +44,37 @@
     height: 100%
     border-radius: 50%
     background: rgba(red, .1)
+
+.add-card-element
+  width: 170px
+  height: 130px
+  background: lighten(#564C74, 60%)
+  border-radius: 7px
+  border: 2px dashed #564C74
+  cursor: pointer
+  margin: 15px
+  transition: .5s
+  position: relative
+
+  &:hover
+    background: lighten(#564C74, 55%)
+
+  .icon
+    @extend %absolute-centered
+
+    svg 
+      width: 45px
+      height: 45px
+      fill: #564C74
+  
+.card-element
+  white-space: pre-line
+  width: 170px
+  height: 130px
+  margin: 15px
+  padding: 15px
+  color: white
+  font-size: 15px
+  border-radius: 7px
+  background: linear-gradient(to bottom, #564C74 0%, #463a6b 100%)
+  background: #564C74

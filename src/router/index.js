@@ -64,21 +64,21 @@ const router = new Router({
   ]
 })
 
-router.beforeEach((from, to, next) => {
-  console.log("Cambio de ruta");
-  console.log("Jwt is:", store.getters['getJwt']);
+// router.beforeEach((from, to, next) => {
+//   console.log("Cambio de ruta");
+//   console.log("Jwt is:", store.getters['getJwt']);
   
 
-  to.meta.requiresAuth
-  const jwt = store.getters['getJwt'];
-  const isLogged = jwt == '' ? false : true;
+//   to.meta.requiresAuth
+//   const jwt = store.getters['getJwt'];
+//   const isLogged = jwt == '' ? false : true;
 
-  if(!isLogged && to.path !== '/') {
-    next('/');
-  } else {
-    next();
-  }
+//   if(!isLogged && to.path !== '/') {
+//     next('/');
+//   } else {
+//     next();
+//   }
 
-});
+// });
 
 export default router;

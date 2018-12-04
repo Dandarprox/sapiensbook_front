@@ -181,7 +181,7 @@ export default {
 @import '../stylesheets/general.sass'
 
 .group-card
-  +flex(1, 1)
+  +flex(0, 1)
   flex-direction: column
   border-radius: 7px
   background: white

@@ -1,6 +1,7 @@
-@import './_fonts.sass'
 @import './_variables.sass'
+@import './_fonts.sass'
 @import './_mixins.sass'
+@import './_animations.sass'
 @import './_buttons.sass'
 
 .btn
@@ -189,3 +190,15 @@ input:-webkit-autofill:active
 
   &:after
     border: 1px solid green
+
+.project-card
+  border-radius: 7px
+  border: 1px solid rgba(black, 0.3)
+  margin: 5px
+  padding: 10px
+
+.box-centered
+  +flex(1, 1)
+
+%soft-shadow
+  box-shadow: 0 3px 10px 2px rgba(black, 0.15) 

@@ -49,6 +49,7 @@ export default {
   display: inline-block
   border-radius: 7px
   overflow-x: auto
+  overflow-y: hidden
   background: white
   padding: 0 20px
   box-shadow: 0 2px 10px 1px rgba(black, .1)

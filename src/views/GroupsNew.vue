@@ -1,5 +1,10 @@
 <template>
   <div class="groups-view">
+    <modal ref="modalComponent">
+      <project-create
+        :project_aux.sync="projects[projects.length]"></project-create>
+    </modal>
+
     <div class="group__image">
       <img src="../assets/_temp/GraphQL_Logo.svg.png" alt="">
       <div class="group__image__title">
@@ -90,12 +95,24 @@
         v-model="newGroup.leader">
     </div>
 
-    <!-- <div class="field-titled">
+    <div class="field-titled">
       <div class="field-titled__title">Projects</div>
-      <create-list
-        :value.sync="newGroup.project">
-      </create-list>
-    </div> -->
+
+      <div class="box-centered">
+        <div class="card-element"
+          v-for="(project) in projects"
+          :key="project.project_leader">
+          <b>{{ project.title }}</b>
+          {{ project.description }}
+        </div>
+
+        <div class="add-card-element" @click="activateModal">
+          <div class="icon">  
+            <svg class="material-icon" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="btn btn-filled btn-margin"
       @click="createGroup">
@@ -106,33 +123,45 @@
 </template>
 
 <script>
-import GQL from '../http_common'
-import jwt from 'jsonwebtoken'
-import { mapGetters } from 'vuex'
-import CreateList from '../components/CreateList.vue'
+import GQL from "../http_common";
+import jwt from "jsonwebtoken";
+import { mapGetters } from "vuex";
+import CreateList from "../components/CreateList.vue";
+import Modal from "../components/Modal.vue"
+import { log } from "async";
+
+import ProjectCreate from "./ProjectCreate.vue"
+
+const projectFields = {
+  status: "",
+  members: [],
+  project_leader: "",
+  title: "",
+  study_areas: [],
+  description: ""
+}
 
 export default {
   computed: {
-    ...mapGetters([
-      'getJwt'
-    ])
+    ...mapGetters(["getJwt"])
   },
   data() {
     return {
+      projects: [],
       newGroup: {
-        name: 'abc',
-        description: 'asd',
-        topic: ['asd'],
-        website: 'asd',
-        field: ['asd'],
-        logo: '',
-        university: ['asd'],
-        status: 'asd',
-        skill: ['asd'],
-        members: ['asd'],
-        director: 'asd',
-        leader: 'asd',
-        project: [''],
+        name: "abc",
+        description: "asd",
+        topic: ["asd"],
+        website: "asd",
+        field: ["asd"],
+        logo: "",
+        university: ["asd"],
+        status: "asd",
+        skill: ["asd"],
+        members: ["asd"],
+        director: "asd",
+        leader: "asd",
+        project: [""]
       }
       // newGroup: {
       //   name: '',
@@ -149,67 +178,85 @@ export default {
       //   leader: '',
       //   project: [''],
       // }
-    }
+    };
   },
   methods: {
     async getGroupById(id) {
-      const res = await GQL.post('',  {
-        query: `
-          query GroupByCode($code: String!) {
-            groupByCode(code: $code) {
-              name
-              description
-              topic
-              website
-              field
-              logo
-              university
-              status
-              skill
-              members
-              director
-              leader
-              project
-            }
-          }`,
+      try {
+        const res = await GQL.post("", {
+          query: `
+            query GroupByCode($code: String!) {
+              groupByCode(code: $code) {
+                name
+                description
+                topic
+                website
+                field
+                logo
+                university
+                status
+                skill
+                members
+                director
+                leader
+                project
+              }
+            }`,
           variables: {
             code: id
           }
-        }
-      )
-      
-      this.group = res.data.data.groupByCode
+        });
+
+        this.group = res.data.data.groupByCode;
+      } catch (e) {
+        console.error("Error getting group by id");
+      }
+    },
+    addProject() {
+      this.projects.push(projectFields);
+    },
+    removeProject() {
+      if(this.projects.length > 0)
+        this.projects.pop();
     }
   },
   beforeMount() {
-    const userId = jwt.decode(this.getJwt)._id
-    this.newGroup.leader = userId
+    // const userId = jwt.decode(this.getJwt)._id;
+    // this.newGroup.leader = userId;
   },
   methods: {
     async createGroup() {
+      try {
+        const res = await GQL.post("", {
+          query: `
+            mutation CreateGroup($group: GroupInput!, $token: String!) {
+              createGroup(group: $group, token: $token) {
+                name
+              }
+            }`,
+          variables: {
+            group: this.newGroup,
+            token: this.getJwt
+          }
+        });
 
-      const res = await GQL.post('', {
-        query: `
-          mutation CreateGroup($group: GroupInput!, $token: String!) {
-            createGroup(group: $group, token: $token) {
-              name
-            }
-          }`,
-        variables: {
-          group: this.newGroup,
-          token: this.getJwt
-        }
-      })
-
-      console.log(jwt.decode(this.getJwt))
-      console.log(res)
+        console.log(jwt.decode(this.getJwt));
+        console.log(res);
+      } catch (e) {
+        console.error("Error creating group");
+      }
       // this.$router.push({name: 'Groups'})
+    },
+    activateModal() {
+      this.$refs.modalComponent.toggleModal();
     }
   },
   components: {
-    CreateList
+    CreateList,
+    Modal,
+    ProjectCreate
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>

@@ -153,11 +153,11 @@
 
         <div style="text-align: right; width: 100%: padding: 15px 0">
           <div class="btn btn--landing" @click="userSignin">
-            Sing up
+            Sign up
           </div>
         </div>
 
-      </div>41
+      </div>
 
     </div>
 
@@ -165,67 +165,67 @@
 </template>
 
 <script>
-import GQL from '../http_common'
-import jwt from 'jsonwebtoken'
+import GQL from "../http_common";
+import jwt from "jsonwebtoken";
 
 export default {
   data() {
     return {
+      test: "",
       disabledCard: true,
       activeLogin: false,
       activeSignin: false,
       login: {
-        email: '',
-        password: ''
+        email: "",
+        password: ""
       },
       signin: {
-        name: '',
-        lastname: '',
-        email: '',
-        password: '',
-        study_areas: '',
-        organization: '',
-        nationality: '',
-        gender: '',
-        languages: '',
-        skills: '',
-        publications: '',
+        name: "",
+        lastname: "",
+        email: "",
+        password: "",
+        study_areas: "",
+        organization: "",
+        nationality: "",
+        gender: "",
+        languages: "",
+        skills: "",
+        publications: ""
       }
-    }
+    };
   },
   methods: {
     async userLogin() {
       try {
-        const res = await GQL.post('', {
+        const res = await GQL.post("", {
           query: `
             mutation Login($data: loginInput!) {
               login(data: $data) 
             }`,
           variables: {
-            data: {
-              email: "daerod@gmail.com",
-              password: "Daniel123"
-            }
             // data: {
-            //   email: this.login.email,
-            //   password: this.login.password
+            //   email: "dlsusp@gmail.com",
+            //   password: "Daniel123"
             // }
+            data: {
+              email: this.login.email,
+              password: this.login.password
+            }
           }
-        })
-  
-        console.log(res)
-        let token = res.data.data.login;
-        this.$store.commit('setJwt', token);
-        this.$store.commit('setCurrentUser', jwt.decode(token)._id)
-        this.$router.push({name: 'UserMe'})
+        });
 
+        console.log(res);
+        let token = res.data.data.login;
+        this.$store.commit("setJwt", token);
+        this.$store.commit("setCurrentUser", jwt.decode(token)._id);
+        this.$router.push({ name: "UserMe" });
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     },
     async userSignin() {
       try {
-        const res = await GQL.post('', {
+        const res = await GQL.post("", {
           query: `
             mutation CreateUser($user: UserInput!) {
               createUser(user: $user) {
@@ -233,60 +233,65 @@ export default {
                 _id
               }
             }`,
-            variables: {
-              user: {
-                name: "Daniel",
-                lastname: "Rodriguez",
-                email: this.signin.email,
-                password: 'Daniel123',
-                organization: 'asda',
-                nationality: 'asdasdasdasd',
-                // gender: 'Male',
-                languages: ['asdasdasdasd'],
-                skills: ['asdasdasdasd'],
-              }
+          variables: {
+            user: {
+              name: "Daniel",
+              lastname: "Rodriguez",
+              email: this.signin.email,
+              password: "Daniel123",
+              organization: "asda",
+              nationality: "asdasdasdasd",
+              // gender: 'Male',
+              languages: ["asdasdasdasd"],
+              skills: ["asdasdasdasd"]
             }
-        })
+          }
+        });
 
-        console.log(res)
-        
-      } catch(e) {
-        console.log(e)
+        console.log(res);
+      } catch (e) {
+        console.log(e);
       }
     }
   },
   mounted() {
-    let path = document.getElementById('svg-text')
+    console.log(localStorage.name);
+    let path = document.getElementById("svg-text");
     let pathLength = Math.ceil(path.getTotalLength());
-    console.log(pathLength)
+    console.log(pathLength);
 
-    let svgRef = document.getElementById('svgRef')
+    let svgRef = document.getElementById("svgRef");
 
     Object.assign(path.style, {
-      'stroke-dasharray': pathLength,
-      'stroke-dashoffset': pathLength,
-      'animation': 'dash 5s linear forwards' 
-    })
-    
-    let anchor = document.getElementById("toLogin")
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+      "stroke-dasharray": pathLength,
+      "stroke-dashoffset": pathLength,
+      animation: "dash 5s linear forwards"
     });
 
-    anchor = document.getElementById("toSignin")
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
+    let anchor = document.getElementById("toLogin");
+    anchor.addEventListener("click", function(e) {
+      e.preventDefault();
 
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+      document.querySelector(this.getAttribute("href")).scrollIntoView({
+        behavior: "smooth"
+      });
     });
+
+    anchor = document.getElementById("toSignin");
+    anchor.addEventListener("click", function(e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute("href")).scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  },
+  watch: {
+    test() {
+      localStorage.name = this.test;
+    }
   }
-}
+};
 </script>
 
 <style lang="sass" scoped>
