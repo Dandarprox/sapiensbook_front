@@ -1,6 +1,14 @@
 const state = {
   jwt: '',
-  currentUser: ''
+  currentUser: '',
+  currentProject: {
+    status: "",
+    members: [],
+    project_leader: [{name: ''}],
+    title: "",
+    study_areas: "",
+    description: ""
+  }
 }
 
 export default state;

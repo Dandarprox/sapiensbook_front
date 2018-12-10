@@ -6,7 +6,12 @@ const getCurrentUser = (state) => {
   return state.currentUser ;
 }
 
+const getCurrentProject = (state) => {
+  return state.currentProject ;
+}
+
 export default {
   getJwt,
-  getCurrentUser
+  getCurrentUser,
+  getCurrentProject
 }

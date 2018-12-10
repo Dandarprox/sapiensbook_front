@@ -6,7 +6,12 @@ const setCurrentUser = (state, payload) => {
   state.currentUser = payload;
 }
 
+const setCurrentProject = (state, payload) => {
+  state.currentProject = payload;
+}
+
 export default {
   setJwt,
-  setCurrentUser
+  setCurrentUser,
+  setCurrentProject
 }
