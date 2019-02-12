@@ -41,11 +41,17 @@
       <label for>Description</label>
       <input type="text" class="input" v-model="project_fields.description">
     </div>
+
+    <div class="btn btn-filled btn-margin"
+      @click="sendData">
+      +Create
+    </div>
   </div>
 </template>
 
 <script>
 import UserList from '../components/UserList.vue'
+
 
 export default {
   data() {
@@ -60,8 +66,16 @@ export default {
       }
     };
   },
+  computed: {
+  
+  },
   components: {
     UserList
+  },
+  methods: {
+    sendData() {
+      this.$store.commit('setCurrentProject', this.project_fields);
+    }
   }
 };
 </script>

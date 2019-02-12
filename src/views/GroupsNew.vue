@@ -1,8 +1,9 @@
 <template>
   <div class="groups-view">
     <modal ref="modalComponent">
-      <project-create
-        :project_aux.sync="projects[projects.length]"></project-create>
+      <keep-alive>
+        <project-create></project-create>
+      </keep-alive>
     </modal>
 
     <div class="group__image">
@@ -99,11 +100,11 @@
       <div class="field-titled__title">Projects</div>
 
       <div class="box-centered">
-        <div class="card-element"
-          v-for="(project) in projects"
-          :key="project.project_leader">
-          <b>{{ project.title }}</b>
-          {{ project.description }}
+        <div class="card-element">
+          <b>{{ currentProject.title }}</b>
+          {{ currentProject.description }}
+          leader: {{ currentProject.project_leader[0].name }}
+          status: {{ currentProject.status }}
         </div>
 
         <div class="add-card-element" @click="activateModal">
@@ -143,11 +144,14 @@ const projectFields = {
 
 export default {
   computed: {
-    ...mapGetters(["getJwt"])
+    ...mapGetters(["getJwt"]),
+    ...mapGetters({
+      "currentProject": "getCurrentProject"
+    })
   },
   data() {
     return {
-      projects: [],
+      local_project: {},
       newGroup: {
         name: "abc",
         description: "asd",
@@ -160,7 +164,7 @@ export default {
         skill: ["asd"],
         members: ["asd"],
         director: "asd",
-        leader: "asd",
+        leader: "watas",
         project: [""]
       }
       // newGroup: {
@@ -218,6 +222,9 @@ export default {
     removeProject() {
       if(this.projects.length > 0)
         this.projects.pop();
+    },
+    setProject(params) {
+      this.local_project = params;
     }
   },
   beforeMount() {
@@ -245,7 +252,7 @@ export default {
       } catch (e) {
         console.error("Error creating group");
       }
-      // this.$router.push({name: 'Groups'})
+      this.$router.push({name: 'Groups'})
     },
     activateModal() {
       this.$refs.modalComponent.toggleModal();
