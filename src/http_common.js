@@ -1,8 +1,24 @@
-import axios from 'axios'
+import axios from "axios";
+
+// export const BaseIP = 'localhost';
+export const BaseIP = "35.237.14.145";
 
 const GQL = axios.create({
-    baseURL: 'http://35.243.152.223/graphql/?',
-    timeout: 60000
-})
+  baseURL: `http://${BaseIP}/graphql/?`,
+  timeout: 60000
+});
 
-export default GQL
+const DIR = axios.create({
+  baseURL: `http://${BaseIP}:3001/`,
+  timeout: 60000
+});
+
+DIR.interceptors.request.use(function(config) {
+  config.headers["Authorization"] = "Bearer " + localStorage.token;
+  config.headers["Content-Type"] = "application/json";
+  config.headers["Access-Control-Allow-Origin"] = "*";
+  return config;
+});
+
+export default GQL;
+export { DIR };

@@ -59,9 +59,6 @@ export default {
   },
   methods: {
     async getUserInfo() {
-      console.log("Token")
-      console.log(this.$store.getters.getJwt)
-      
       const res = await GQL.post('', {
         query: `
           query UserMe($token: String!) {
@@ -75,7 +72,7 @@ export default {
             }
           }`,
         variables: {
-          token: this.$store.getters.getJwt
+          token: localStorage.token
         }
       })
       this.user = res.data.data.me;

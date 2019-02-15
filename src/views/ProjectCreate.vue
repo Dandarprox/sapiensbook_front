@@ -1,45 +1,45 @@
 <template>
   <div class="project">
-    <h1 class="title-card">Add a new project</h1>
+    <h1 class="Titulo-card">Add a new project</h1>
 
     <div class="row">
       <label for>Status</label>
       <div class="fl">
-        <div class="xstatus xstatus--active"
-          :class="{'xstatus--selected': project_fields.status == 'active'}"
-          @click="project_fields.status = 'active'">Active</div>
-        <div class="xstatus xstatus--inactive"
-          :class="{'xstatus--selected': project_fields.status == 'inactive'}"
-          @click="project_fields.status = 'inactive'">Inactive</div>
+        <div class="xStatus xStatus--active"
+          :class="{'xStatus--selected': project_fields.Status == 'active'}"
+          @click="project_fields.Status = 'active'">Active</div>
+        <div class="xStatus xStatus--inactive"
+          :class="{'xStatus--selected': project_fields.Status == 'inactive'}"
+          @click="project_fields.Status = 'inactive'">Inactive</div>
       </div>
     </div>
 
     <div class="row">
       <label for>Members</label>
       <user-list 
-        :value="project_fields.members"></user-list>
+        :value="project_fields.Miembros"></user-list>
     </div>
 
     <div class="row">
       <label for>Project leader</label>
       <user-list 
-        :value="project_fields.project_leader"
+        :value="project_fields.Lider_de_proyecto"
         :unique="true"></user-list>
     </div>
 
     <div class="row">
       <label for>Title</label>
-      <input type="text" class="input" v-model="project_fields.title">
+      <input type="text" class="input" v-model="project_fields.Titulo">
     </div>
 
     <div class="row">
       <label for>Study areas</label>
-      <input type="text" class="input" v-model="project_fields.study_areas">
+      <input type="text" class="input" v-model="project_fields.Areas_de_estudio">
     </div>
 
     <div class="row">
       <label for>Description</label>
-      <input type="text" class="input" v-model="project_fields.description">
+      <input type="text" class="input" v-model="project_fields.Descripcion">
     </div>
 
     <div class="btn btn-filled btn-margin"
@@ -51,18 +51,18 @@
 
 <script>
 import UserList from '../components/UserList.vue'
-
+import { log } from 'async';
 
 export default {
   data() {
     return {
       project_fields: {
-        status: "active",
-        members: [],
-        project_leader: [],
-        title: "",
-        study_areas: "",
-        description: ""
+        Status: "active",
+        Miembros: [],
+        Lider_de_proyecto: [],
+        Titulo: "",
+        Areas_de_estudio: "",
+        Descripcion: ""
       }
     };
   },
@@ -74,7 +74,13 @@ export default {
   },
   methods: {
     sendData() {
-      this.$store.commit('setCurrentProject', this.project_fields);
+      // this.$store.commit('setCurrentProject', this.project_fields);
+      this.project_fields.Lider_de_proyecto = this.project_fields.Lider_de_proyecto[0]
+      this.project_fields.Areas_de_estudio = [this.project_fields.Areas_de_estudio]
+      console.log("Sending to group");
+      console.log(this.project_fields)
+      this.$store.state.user.currentProject.push(this.project_fields);
+      this.$emit('projectCreated');
     }
   }
 };
@@ -82,7 +88,7 @@ export default {
 
 <style lang="sass" scoped>
 @import "../stylesheets/general.sass"
-.title-card
+.Titulo-card
   @extend %soft-shadow
 
 input
@@ -105,7 +111,7 @@ label
 .fl
   +flex(1, 1)
 
-.xstatus
+.xStatus
   cursor: pointer
   margin: 0 10px
   padding: 5px 10px
@@ -120,13 +126,14 @@ label
   &:hover
     filter: brightness(110%)
 
-.xstatus--active
+.xStatus--active
   background: #40a550
 
-.xstatus--inactive
+.xStatus--inactive
   background: #cc4343
 
-.xstatus--selected
+.xStatus--selected
   transform: scale(1.23)
+
 
 </style>

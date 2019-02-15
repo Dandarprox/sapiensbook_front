@@ -103,13 +103,13 @@
             class="input--landing">
         </div>
 
-        <div class="input-box">
+        <!-- <div class="input-box">
           <div class="input__label">Profile</div>
           <input 
             type="text" 
             v-model="signin.profile"
             class="input--landing">
-        </div>
+        </div> -->
 
         <div class="input-box">
           <div class="input__label">Nationality</div>
@@ -143,13 +143,13 @@
             class="input--landing">
         </div>
 
-        <div class="input-box">
+        <!-- <div class="input-box">
           <div class="input__label">Publications</div>
           <input 
             type="text" 
             v-model="signin.publications"
             class="input--landing">
-        </div>
+        </div> -->
 
         <div style="text-align: right; width: 100%: padding: 15px 0">
           <div class="btn btn--landing" @click="userSignin">
@@ -216,6 +216,8 @@ export default {
 
         console.log(res);
         let token = res.data.data.login;
+        localStorage.token = token;
+        localStorage.currentUser = jwt.decode(token)._id;
         this.$store.commit("setJwt", token);
         this.$store.commit("setCurrentUser", jwt.decode(token)._id);
         this.$router.push({ name: "UserMe" });

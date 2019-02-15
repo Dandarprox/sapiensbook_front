@@ -67,7 +67,7 @@ export default {
       const routesMap = {
         'Perfil': 'UserMe',
         'Grupos': 'Groups',
-        'Actividad': '',
+        'Actividad': 'Activity',
       }
 
       this.activeLink = route

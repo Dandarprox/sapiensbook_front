@@ -3,8 +3,9 @@ import Router from 'vue-router'
 import { store } from '../store/index'
 
 import Layout from '../ui/Layout.vue'
-import Landing from '../views/Landing.vue'
 import UserMe from '../views/UserMe.vue'
+import Landing from '../views/Landing.vue'
+import Activity from '../views/Activity.vue'
 
 import Groups from '../views/Groups.vue'
 import GroupsNew from '../views/GroupsNew.vue'
@@ -43,6 +44,11 @@ const router = new Router({
           },
           children: [
           ]
+        },
+        {
+          path: '/activity',
+          name: 'Activity',
+          component: Activity
         },
         {
           path: '/groups/:id',

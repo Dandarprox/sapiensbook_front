@@ -2,7 +2,8 @@
   <div class="groups-view">
     <modal ref="modalComponent">
       <keep-alive>
-        <project-create></project-create>
+        <project-create
+          @projectCreated="closeModal"></project-create>
       </keep-alive>
     </modal>
 
@@ -99,12 +100,16 @@
     <div class="field-titled">
       <div class="field-titled__title">Projects</div>
 
-      <div class="box-centered">
-        <div class="card-element">
-          <b>{{ currentProject.title }}</b>
-          {{ currentProject.description }}
-          leader: {{ currentProject.project_leader[0].name }}
-          status: {{ currentProject.status }}
+      <div class="box-centered wrapped-container">
+        <div class="card-element"
+          :key="index"
+          v-for="(project, index) in currentProject">
+          <div class="card-delete"
+            @click="deleteCard(index)">x</div>
+          <b>{{ project.Titulo }}</b>
+          {{ project.Descripcion }}
+          leader: {{ project.Lider_de_proyecto.name }}
+          status: {{ project.Status }}
         </div>
 
         <div class="add-card-element" @click="activateModal">
@@ -225,38 +230,76 @@ export default {
     },
     setProject(params) {
       this.local_project = params;
-    }
-  },
-  beforeMount() {
-    // const userId = jwt.decode(this.getJwt)._id;
-    // this.newGroup.leader = userId;
-  },
-  methods: {
+    },
+    closeModal() {
+      this.$refs.modalComponent.toggleModal();
+    },
     async createGroup() {
       try {
         const res = await GQL.post("", {
           query: `
             mutation CreateGroup($group: GroupInput!, $token: String!) {
               createGroup(group: $group, token: $token) {
-                name
+                soid
               }
             }`,
           variables: {
             group: this.newGroup,
-            token: this.getJwt
+            token: localStorage.token
           }
         });
 
-        console.log(jwt.decode(this.getJwt));
-        console.log(res);
+        await this.createProjects(res.data.data.createGroup.soid);
       } catch (e) {
         console.error("Error creating group");
       }
+
       this.$router.push({name: 'Groups'})
+    },
+    async createProjects(groupId) {
+      try {
+        
+        let projects = this.$store.state.user.currentProject;
+        for(const project of projects) {
+          project.Lider_de_proyecto = project.Lider_de_proyecto._id
+
+          for (let i = 0; i < project.Miembros.length; i++) {
+            project.Miembros[i] = project.Miembros[i]._id            
+          }
+
+          console.log("Group id:", groupId);
+          project.Planeacion_Id = [groupId];
+
+          let res = await GQL.post("", {
+            query: `
+              mutation CreateProject($project: ProjectInput!, $token: String!) {
+                createProject(project: $project, token: $token) {
+                  Titulo
+                }
+              }`,
+            variables: {
+              project: project,
+              token: localStorage.token
+            }
+          });
+        }
+
+        this.$store.state.user.currentProject = [];
+
+      } catch (e) {
+        console.error("Error creating project");
+      }
     },
     activateModal() {
       this.$refs.modalComponent.toggleModal();
+    },
+    deleteCard(idx) {
+      this.$store.state.user.currentProject.splice(idx, 1);
     }
+  },
+  beforeMount() {
+    // const userId = jwt.decode(this.getJwt)._id;
+    // this.newGroup.leader = userId;
   },
   components: {
     CreateList,
@@ -320,5 +363,23 @@ export default {
     top: 0%
     left: 50%
     transform: translate(-50%, -50%)
+
+.card-delete
+  +flex(1, 1)
+  border-radius: 50%
+  +squared(20px)
+  background: #f44242
+  color: white
+  position: absolute
+  top: 5px
+  right: 5px
+  line-height: 20px
+  @extend %pointer
+
+  &:hover
+    filter: brightness(110%)
+
+.wrapped-container
+  flex-wrap: wrap
 
 </style>

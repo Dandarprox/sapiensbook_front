@@ -78,26 +78,38 @@
 
     <div class="field-titled">
       <div class="field-titled__title">Leader</div>
-      {{ group.leader }}
+      {{ leaderName }}
     </div>
 
     <div class="field-titled">
       <div class="field-titled__title">Projects</div>
-      <li v-for="(project, idx) in group.project"
-        :key="idx">{{ project }}</li>
+
+        <div class="box-centered wrapped-container">
+          <div class="card-element"
+            :key="index"
+            v-for="(project, index) in projects">
+            <b>{{ project.Titulo }}</b>
+            {{ project.Descripcion }}
+            leader: {{ project.Lider_de_proyecto.name }}
+            status: {{ project.Status }}
+          </div>
+        </div>
+
     </div>
 
   </div>
 </template>
 
 <script>
-import GQL from '../http_common'
+import GQL, { DIR } from '../http_common'
 import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
-      group: ''
+      group: '',
+      leaderName: '',
+      projects: null
     }
   },
   computed: {
@@ -105,7 +117,7 @@ export default {
       'getCurrentUser'
     ]),
     canDelete() {
-      return this.getCurrentUser == this.group.leader
+      return localStorage.currentUser == this.group.leader
     }
   },
   methods: {
@@ -135,8 +147,32 @@ export default {
           }
         }
       )
-      
+
       this.group = res.data.data.groupByCode
+      console.log("Soid");
+      console.log(this.group.soid);
+      
+      const res2 = await GQL.post('',  {
+        query: `
+          query Allprojects {
+            allProjects {
+              Status
+              Miembros
+              Lider_de_proyecto
+              Titulo
+              Areas_de_estudio
+              Descripcion
+            }
+          }`
+        }
+      )
+      
+      console.log("PROJECTS");
+      console.log(res2.data.data.allProjects);
+      
+      // this.projects = res2.data.data.allProjects.filter(p => p.Planeacion_Id == this.group.soid)
+      this.projects = res2.data.data.allProjects.splice(0, 3)
+      
     },
     async deleteGroup() {
       const res = await GQL.post('', {
@@ -216,5 +252,8 @@ export default {
     top: 0%
     left: 50%
     transform: translate(-50%, -50%)
+
+.wrapped-container
+  flex-wrap: wrap
 
 </style>

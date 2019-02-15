@@ -169,7 +169,7 @@ export default {
     let self = this
     this.myGroups = _.filter(this.groups.allGroups, function(group) {
       console.log(group)
-      if(group.leader == self.getCurrentUser) return true;
+      if(group.leader == localStorage.currentUser) return true;
       return false;
     })
   }

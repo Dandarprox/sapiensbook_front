@@ -8,17 +8,22 @@
       <top-bar></top-bar>
       <router-view></router-view>
     </div>
+
+    <chat-base></chat-base>
   </div>  
 </template>
 
 <script>
 import LateralPanel from './LateralPanel.vue'
+import Chat from '../components/Chat.vue'
 import TopBar from './TopBar.vue'
+
 
 export default {
   components: {
     LateralPanel,
-    TopBar
+    TopBar,
+    'ChatBase': Chat
   }
 }
 </script>
@@ -36,5 +41,6 @@ export default {
     background: #f0eff4
     flex-grow: 1
     overflow-y: auto
+    height: 100vh
 
 </style>
