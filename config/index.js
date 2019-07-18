@@ -13,7 +13,11 @@ module.exports = {
     proxyTable: {},
 
     // Various Dev Server settings
+<<<<<<< HEAD
     host: '0.0.0.0', //z can be overwritten by process.env.HOST
+=======
+    host: '35.227.50.158', // can be overwritten by process.env.HOST
+>>>>>>> 423ccc83a6f361040fbb27243079a85a1fd56bd8
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
@@ -38,12 +42,12 @@ module.exports = {
 
   build: {
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
+    index: path.resolve(__dirname, '/Users/spenas/Documents/2018-2/arquitectura/proyecto/sapiensbook-mobile/www/dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    assetsRoot: path.resolve(__dirname, '/Users/spenas/Documents/2018-2/arquitectura/proyecto/sapiensbook-mobile/www/dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsPublicPath: '',
 
     /**
      * Source Maps
