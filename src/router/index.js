@@ -70,21 +70,28 @@ const router = new Router({
   ]
 })
 
-// router.beforeEach((from, to, next) => {
-//   console.log("Cambio de ruta");
-//   console.log("Jwt is:", store.getters['getJwt']);
-  
+let userLogged = false;
 
-//   to.meta.requiresAuth
-//   const jwt = store.getters['getJwt'];
-//   const isLogged = jwt == '' ? false : true;
+router.beforeEach((from, to, next) => {
+  const jwt = store.getters['getJwt'];
+  const isLogged = jwt == '' ? false : true;
 
-//   if(!isLogged && to.path !== '/') {
-//     next('/');
-//   } else {
-//     next();
-//   }
+  if(!isLogged && to.path !== '/') {
+    next('/');
+  } else {
 
-// });
+    if (!userLogged) {
+      userLogged = true;
+
+      // After five minutes reset token
+      setTimeout(() => {
+        store.state.jwt = '';
+        next('/');
+      }, 300000);      
+    }
+    next();
+  }
+
+});
 
 export default router;

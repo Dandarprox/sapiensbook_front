@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // export const BaseIP = 'localhost';
-export const BaseIP = "35.237.14.145";
+export const BaseIP = "35.232.195.188";
 
 const GQL = axios.create({
   baseURL: `http://${BaseIP}/graphql/?`,
