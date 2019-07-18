@@ -10,7 +10,7 @@ const GQL = axios.create({
 
 const DIR = axios.create({
   baseURL: `http://${BaseIP}:3001/`,
-  timeout: 60000
+  timeout: 60000 
 });
 
 DIR.interceptors.request.use(function(config) {
